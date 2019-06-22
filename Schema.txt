@@ -1,0 +1,103 @@
+create table Dimensions(
+dimensions_id varchar(255) primary key, 
+length numeric(10,2), 
+width numeric(10,2), 
+height numeric(10,2));
+
+insert into Dimensions(dimensions_id, length, width, height) values ('000', 10, 11, 15);
+insert into Dimensions(dimensions_id, length, width, height) values ('001', 10, 11, 15);
+insert into Dimensions(dimensions_id, length, width, height) values ('002', 10, 11, 15);
+
+
+create table Material(
+material_id varchar(255) primary key, 
+material_name varchar(255));
+
+insert into Material(material_id, material_name) values ('0000', 'golden');
+insert into Material(material_id, material_name) values ('0001', 'silver');
+insert into Material(material_id, material_name) values ('0002', 'copper');
+
+
+create table Artifact(
+Number varchar(255) primary key, 
+dimensions_id varchar(255) references Dimensions(dimensions_id), 
+weight int, 
+material_id varchar(255) references Material(material_id), 
+humidity numeric(255,2));
+
+insert into Artifact(Number, dimensions_id, weight, material_id, humidity) values ('AC000', '000', 7, '0000', 0.35); 
+insert into Artifact(Number, dimensions_id, weight, material_id, humidity) values ('MK001', '001', 8, '0001', 0.45);
+insert into Artifact(Number, dimensions_id, weight, material_id, humidity) values ('TH002', '002', 7, '0002', 0.55);
+
+
+create table Employees(
+SIN varchar(255) primary key, 
+Name varchar(255), 
+address varchar(255), 
+phone_num varchar(255));
+
+insert into Employees(SIN, Name, address, phone_num) values ('00000000000', 'Steve', 'NewYork', '7780000000');
+insert into Employees(SIN, Name, address, phone_num) values ('00000000001', 'Tony', 'NewYork', '7780000001');
+insert into Employees(SIN, Name, address, phone_num) values ('00000000002', 'Thor', 'Norway', '7780000002');
+insert into Employees(SIN, Name, address, phone_num) values ('00000000003', 'Stan', 'NewYork', '7780000003');
+
+
+create table Technician(
+T_id varchar(255) primary key, 
+T_SIN varchar(255) references Employees(SIN), 
+salary numeric(255,2), 
+position varchar(255));
+
+insert into Technician(T_id, T_SIN, salary, position) values ('00', '00000000000', 3000.23, 'both');
+insert into Technician(T_id, T_SIN, salary, position) values ('01', '00000000001', 2000.23, 'conservation');
+insert into Technician(T_id, T_SIN, salary, position) values ('02', '00000000002', 1000.23, 'restorer');
+
+
+create table Technician_Material_map(
+material_id varchar(255) NOT NULL, 
+T_id varchar(255) NOT NULL, 
+foreign key (material_id) references Material(material_id), 
+foreign key (T_id) references Technician(T_id), 
+unique (material_id, T_id));
+
+insert into Technician_Material_map(material_id, T_id) values ('0000', '00');
+insert into Technician_Material_map(material_id, T_id) values ('0001', '00');
+insert into Technician_Material_map(material_id, T_id) values ('0002', '00');
+insert into Technician_Material_map(material_id, T_id) values ('0001', '01');
+insert into Technician_Material_map(material_id, T_id) values ('0002', '01');
+insert into Technician_Material_map(material_id, T_id) values ('0002', '02');
+
+
+create table Guides(
+G_id varchar(255) primary key, 
+G_SIN varchar(255) references Employees(SIN), 
+examDate date NOT NULL);
+
+insert into Guides(G_id, G_SIN, examDate) values ('03', '00000000003', '20181112');
+
+create table Test(
+test_num varchar(255) primary key, 
+test_name varchar(255), 
+score numeric(255,2), 
+test_date date NOT NULL, 
+hours int, 
+T_id varchar(255) references Technician(T_id), 
+Number varchar(255) references Artifact(Number));
+
+insert into Test(test_num, test_name, score, test_date, hours, T_id, Number) values ('t1', 'test1', 99.9, '20190202', 3, '00', 'AC000'); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
