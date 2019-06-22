@@ -1,0 +1,44 @@
+Artifact(Number, dimension_id, weight, material_id, humidity)
+    primary key: Number  
+    foreign key: material_id (refer to Material(material_id))
+	         dimension_id (refer to Dimensions(dimension_id))
+	
+Dimensions(dimension_id, length, width, heigth)
+    primary key: dimension_id
+	
+Material(material_id, material_name)
+    primary key: material_id
+	
+Employees(SIN, name, Address, phone_num)
+    primary key: SIN
+	
+Technician(T_id, T_SIN, salary, position)
+    primary key: T_id 
+    foreign key: T_SIN (refer to Employees(SIN))
+	
+Technician_Material_map(material_id, T_id)
+    foreign key: material_id (refer to Material(material_id))
+    foreign key: T_id (refer to Technician(T_id))
+
+Guides(G_id, G_SIN, examDate)
+    primary key: G_id
+    foreign key: G_SIN (refer to Employees(SIN))
+	
+Test(test_num, name, score, date, hours, T_SIN, Number)
+    primary key: test_num
+    foreign key: T_SIN (refer to(Technician(T_SIN))
+	         Number (refer to(Artifact(Number))
+	
+	
+The dimensions table contains the material id and its corresponding length, width and height, and primary key is dimensions_id.
+The material table contains the material id and its corresponding material name, and primary key is material id.
+Artifact holding the basic information of each artifact which primary key is the specific number, and the foreign key are dimensions id and material id which are refering to dimensions table and material table.
+The employee table store all the employees' basic information which primary key is the unique SIN.
+As the employees contains technician and guide, so there are also a technician table and guides table. 
+Technician table stores the technician's membership id, SIN, salary and position, which primary key is membership id and foreign key is SIN refer to employee table. 
+Guide table stores the guide's membership id, SIN, and exam date which primary key is membership id and foreign key is SIN refer to employee table.
+As the technician and material are multiple to multiple relationship, so there is a Technician_Material_map table which stores the material_id and its corresponding technician. Both attributes are foreign key.
+The test table contains the test_number which is the primary key and test name, score, hours, foreign key technician id for who do the test refering to technician table and artifact number refer to artifact table. 
+In the database, dimensions, weight and humidity, salary, score are numeric type, hour is int type, exam date is date type and the others are varchar type.
+
+	
